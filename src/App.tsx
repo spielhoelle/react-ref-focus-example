@@ -1,26 +1,26 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { createRef } from 'react';
 import './App.css';
 
 function App() {
+  const list = [1, 2, 3, 4, 5];
+  const lineRefs: any = React.useRef([]);
+  lineRefs.current = list.map((_, i) => lineRefs.current[i] ?? createRef());
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {list.map((item, i) => (
+        <div
+          key={item}>
+          <input
+            ref={lineRefs.current[i]}
+            placeholder='Text...' />
+          <button
+            onClick={(e) => {
+              lineRefs.current[i].current.focus()
+            }}
+          >{item}</button>
+        </div>
+      ))}
+    </>
   );
 }
-
 export default App;
